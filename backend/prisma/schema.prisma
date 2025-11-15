@@ -1,0 +1,192 @@
+// Prisma Schema for Production Tracker
+// Database: PostgreSQL 15+
+
+generator client {
+  provider             = "prisma-client-py"
+  interface            = "asyncio"
+  recursive_type_depth = 5
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================================
+// USER MODEL
+// ============================================================================
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String   // Hashed with bcrypt
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Preferences (stored as JSON)
+  preferences Json? @default("{}")
+
+  // Relationships
+  projects      Project[]
+  refreshTokens RefreshToken[]
+
+  @@index([email])
+}
+
+// ============================================================================
+// REFRESH TOKEN MODEL (for JWT refresh tokens)
+// ============================================================================
+model RefreshToken {
+  id        String   @id @default(uuid())
+  token     String   @unique
+  userId    String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([token])
+}
+
+// ============================================================================
+// PROJECT MODEL
+// ============================================================================
+model Project {
+  id                 String   @id @default(uuid())
+  userId             String
+  name               String
+  bpm                Float?
+  key                String?
+  genre              String?
+  status             String   @default("in_progress") // in_progress, mixing, mastering, done, released
+  abletonProjectPath String?
+  totalTimeSeconds   Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  deletedAt          DateTime? // Soft delete
+
+  // Relationships
+  user          User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  versions      Version[]
+  sessions      Session[]
+  notes         Note[]
+  aiSuggestions AISuggestion[]
+  references    Reference[]
+
+  @@index([userId, status])
+  @@index([userId, createdAt])
+  @@index([deletedAt])
+}
+
+// ============================================================================
+// VERSION MODEL
+// ============================================================================
+model Version {
+  id          String   @id @default(uuid())
+  projectId   String
+  name        String?
+  description String?
+  audioPath   String // Path to audio file
+  createdAt   DateTime @default(now())
+
+  // Audio Analysis Data (stored as JSON)
+  analysis Json? // Contains LUFS, dynamic range, spectral analysis, waveform data
+
+  // Relationships
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  notes   Note[]
+
+  @@index([projectId, createdAt])
+}
+
+// ============================================================================
+// SESSION MODEL
+// ============================================================================
+model Session {
+  id                String    @id @default(uuid())
+  projectId         String
+  startTime         DateTime  @default(now())
+  endTime           DateTime?
+  durationSeconds   Int       @default(0)
+  actionCount       Int       @default(0)
+  abletonProjectPath String?
+
+  // Session data (actions, focus areas, etc. stored as JSON)
+  actions      Json? @default("[]") // Array of action objects
+  focusAreas   Json? @default("[]") // Array of focus area strings
+  metadata     Json? @default("{}")
+
+  // AI Analysis Results
+  aiInsights   Json? // Generated after session ends
+
+  // Relationships
+  project       Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  aiSuggestions AISuggestion[]
+
+  @@index([projectId, startTime])
+}
+
+// ============================================================================
+// NOTE MODEL
+// ============================================================================
+model Note {
+  id        String   @id @default(uuid())
+  projectId String
+  versionId String?
+  type      String   @default("text") // text, voice, ai_generated
+  content   String   @db.Text
+  timestamp Float? // Optional timestamp in track (seconds)
+  audioPath String? // For voice notes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relationships
+  project Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  version Version? @relation(fields: [versionId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt])
+  @@index([versionId])
+}
+
+// ============================================================================
+// AI SUGGESTION MODEL
+// ============================================================================
+model AISuggestion {
+  id             String   @id @default(uuid())
+  projectId      String
+  sessionId      String?
+  suggestionType String // next_step, stuck_alert, pattern_insight, reference_comparison
+  content        String   @db.Text
+  context        Json? // Additional context data
+  priority       String   @default("medium") // low, medium, high
+  userFeedback   String? // helpful, not_helpful
+  createdAt      DateTime @default(now())
+
+  // Relationships
+  project Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  session Session? @relation(fields: [sessionId], references: [id], onDelete: SetNull)
+
+  @@index([projectId, createdAt])
+  @@index([sessionId])
+}
+
+// ============================================================================
+// REFERENCE MODEL
+// ============================================================================
+model Reference {
+  id        String   @id @default(uuid())
+  projectId String
+  name      String
+  artist    String?
+  audioPath String
+  createdAt DateTime @default(now())
+
+  // Audio Analysis Data (stored as JSON)
+  analysis Json? // Contains same analysis metrics as Version
+
+  // Relationships
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, createdAt])
+}
