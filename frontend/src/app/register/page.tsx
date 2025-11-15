@@ -176,6 +176,7 @@ export default function RegisterPage() {
             </Link>
           </div>
         </form>
+        </div>
       </div>
     </div>
   )
