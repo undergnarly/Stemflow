@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function DashboardPage() {
   const router = useRouter()
@@ -79,6 +80,7 @@ export default function DashboardPage() {
               <span className="text-sm text-muted-foreground">
                 {user?.email}
               </span>
+              <ThemeToggle />
               <button
                 onClick={handleLogout}
                 className="rounded-md border border-input bg-background px-3 py-1.5 text-sm hover:bg-accent hover:text-accent-foreground"

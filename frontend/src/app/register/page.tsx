@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { ThemeToggle } from '@/components/theme-toggle'
 
 export default function RegisterPage() {
   const router = useRouter()
@@ -58,17 +59,28 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-4">
-      <div className="w-full max-w-md space-y-8">
-        <div className="text-center">
-          <h2 className="text-3xl font-bold tracking-tight">Create your account</h2>
-          <p className="mt-2 text-sm text-muted-foreground">
-            Already have an account?{' '}
-            <Link href="/login" className="font-medium text-primary hover:underline">
-              Sign in
-            </Link>
-          </p>
+    <div className="flex min-h-screen flex-col">
+      {/* Header with theme toggle */}
+      <header className="border-b border-border">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex items-center justify-end">
+            <ThemeToggle />
+          </div>
         </div>
+      </header>
+
+      {/* Main content */}
+      <div className="flex flex-1 items-center justify-center px-4">
+        <div className="w-full max-w-md space-y-8">
+          <div className="text-center">
+            <h2 className="text-3xl font-bold tracking-tight">Create your account</h2>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Already have an account?{' '}
+              <Link href="/login" className="font-medium text-primary hover:underline">
+                Sign in
+              </Link>
+            </p>
+          </div>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           {error && (
