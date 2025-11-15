@@ -1,0 +1,82 @@
+================================
+PRODUCTION TRACKER - QUICK INSTALL
+Windows One-Click Installation
+================================
+
+EASY INSTALLATION (RECOMMENDED):
+---------------------------------
+
+1. Extract this ZIP file to any folder
+
+2. Right-click on "INSTALL.bat"
+   Select "Run as Administrator"
+
+3. Follow the prompts - the installer will:
+   ✓ Check/install Node.js automatically
+   ✓ Install dependencies
+   ✓ Copy files to Program Files
+   ✓ Install Ableton device
+   ✓ Create desktop shortcut
+   ✓ (Optional) Add to Windows startup
+
+4. Done! Open Ableton Live and look for "Production Tracker"
+   in Max Audio Effect devices
+
+ALTERNATIVE (PowerShell):
+-------------------------
+
+1. Right-click on "INSTALL.ps1"
+   Select "Run with PowerShell"
+
+MANUAL INSTALLATION:
+--------------------
+
+If the automatic installer doesn't work:
+
+1. Install Node.js from https://nodejs.org
+
+2. Double-click "start-bridge.bat" to start the bridge
+
+3. Copy "ProductionTracker.amxd" or "ProductionTracker.maxpat" to:
+   %USERPROFILE%\Documents\Ableton\User Library\Presets\Audio Effects\Max Audio Effect\
+
+4. Open Ableton and add the device to Master track
+
+USAGE:
+------
+
+1. Start the bridge (double-click desktop shortcut or start-bridge.bat)
+2. Open Ableton Live
+3. Add "Production Tracker" device to Master track
+4. Click "Connect" button
+5. Enter auth token from https://muvs.dev/dashboard
+6. Start making music!
+
+TROUBLESHOOTING:
+----------------
+
+"Access denied" error:
+→ Right-click installer and select "Run as Administrator"
+
+Node.js installation fails:
+→ Download manually from https://nodejs.org
+→ Install, then run INSTALL.bat again
+
+Bridge won't start:
+→ Make sure Node.js is installed
+→ Check that ports 7400 and 7401 are not in use
+→ Try running start-bridge.bat as Administrator
+
+Device not in Ableton:
+→ Copy .amxd file manually to User Library
+→ Restart Ableton Live
+
+SUPPORT:
+--------
+
+Website: https://muvs.dev
+Documentation: See README.txt for full details
+
+================================
+Happy producing! 🎵
+================================
