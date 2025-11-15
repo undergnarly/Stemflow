@@ -1,0 +1,37 @@
+# Max/MSP autosave and temp files
+*.maxpat~
+*.amxd~
+*.maxhelp~
+*.maxpat.orig
+*.amxd.orig
+
+# Build output
+build/
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node.js (if using nodejs bridge)
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# Temporary audio files
+*.wav.tmp
+temp_audio/
+
+# Cache
+.cache/
+cache/
