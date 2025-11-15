@@ -1,0 +1,30 @@
+{
+  "name": "production-tracker-m4l-bridge",
+  "version": "1.0.0",
+  "description": "WebSocket bridge for Production Tracker Max4Live device",
+  "main": "websocket-bridge.js",
+  "scripts": {
+    "start": "node websocket-bridge.js",
+    "dev": "DEBUG=true node websocket-bridge.js",
+    "install-global": "npm install -g .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "production-tracker-bridge": "./websocket-bridge.js"
+  },
+  "keywords": [
+    "ableton",
+    "max4live",
+    "websocket",
+    "production",
+    "tracking"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.14.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}

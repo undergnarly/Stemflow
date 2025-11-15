@@ -47,9 +47,13 @@ export default function DashboardPage() {
   }
 
   const handleDownloadDevice = () => {
-    // This will trigger download of Ableton device
-    // For now, just show an alert
-    alert('Ableton device download will be available soon!')
+    // Trigger download of Ableton device package
+    const link = document.createElement('a')
+    link.href = '/downloads/ProductionTracker-v1.0.0.tar.gz'
+    link.download = 'ProductionTracker-v1.0.0.tar.gz'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
 
   if (loading) {
