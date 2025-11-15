@@ -1,6 +1,6 @@
 ================================
 Production Tracker for Ableton Live
-Max for Live Device v1.0.0
+Max for Live Device v1.0.1
 ================================
 
 WHAT IS THIS?
@@ -15,67 +15,90 @@ FEATURES
 ✓ Voice notes with audio recording
 ✓ Project snapshots
 ✓ Real-time sync to web dashboard
+✓ Auto-start bridge (no manual start needed!)
 
 REQUIREMENTS
 ------------
 1. Ableton Live 11+ with Max for Live
-2. Node.js 14+ (installer will handle this for you on Windows)
+2. Node.js 14+ (installer handles this automatically on Windows)
 3. Production Tracker account at https://muvs.dev
 
-QUICK INSTALL - WINDOWS (ONE-CLICK)
-------------------------------------
-👉 See QUICK_INSTALL_WINDOWS.txt for easy installation!
+SUPER EASY INSTALL - WINDOWS (ONE-CLICK!)
+------------------------------------------
 
-Just run INSTALL.bat as Administrator - it does everything for you!
+👉 Just run INSTALL.bat as Administrator!
+
+1. Extract this ZIP to any folder
+2. Right-click INSTALL.bat → "Run as Administrator"
+3. Wait ~2 minutes
+4. Done! Everything is installed and auto-starts!
+
+The installer will:
+✓ Install Node.js if needed (automatic download)
+✓ Install all dependencies
+✓ Copy device to Ableton
+✓ Set up auto-start (bridge runs when Windows starts!)
+✓ Create desktop shortcut
+
+After installation, the bridge will:
+✓ Start automatically every time you boot Windows
+✓ Run in background (you don't need to do anything!)
+✓ Just open Ableton and the device will connect!
+
+NO NEED TO MANUALLY START THE BRIDGE! 🎉
+
+See QUICK_INSTALL_WINDOWS.txt for details.
 
 INSTALLATION - ALL PLATFORMS
 -----------------------------
 
-WINDOWS:
-1. Right-click INSTALL.bat → "Run as Administrator"
-2. Follow the prompts
-3. Done!
+WINDOWS (ONE-CLICK):
+→ See "SUPER EASY INSTALL" above!
 
-Or use PowerShell:
-1. Right-click INSTALL.ps1 → "Run with PowerShell"
-
-MANUAL INSTALLATION (All Platforms):
--------------------------------------
-1. Install Node.js from https://nodejs.org (if not already installed)
-
-2. Start the WebSocket Bridge:
-   - Windows: Double-click start-bridge.bat
-   - Mac/Linux: Run ./start-bridge.sh
-
-   Keep this window open while using Ableton!
-
-3. Install the M4L device:
-
-   WINDOWS:
-   Copy ProductionTracker.amxd to:
-   %USERPROFILE%\Documents\Ableton\User Library\Presets\Audio Effects\Max Audio Effect\
-
-   MAC:
-   Copy ProductionTracker.amxd to:
+MAC/LINUX (MANUAL):
+1. Install Node.js from https://nodejs.org
+2. Run: npm install
+3. Run: ./start-bridge.sh (keep it running)
+4. Copy ProductionTracker.amxd to Ableton User Library:
    ~/Music/Ableton/User Library/Presets/Audio Effects/Max Audio Effect/
+5. Open Ableton and add device to Master track
 
-   Or drag ProductionTracker.amxd directly onto a track in Ableton
+AUTO-START OPTIONS
+------------------
 
-4. In Ableton Live:
-   - Drag "Production Tracker" device onto your Master track
-   - Click the "Connect" button
-   - Enter your auth token from https://muvs.dev/dashboard
-   - Start making music!
+The bridge can start automatically! See AUTOSTART_README.txt for:
 
-QUICK START
------------
-After installation:
+✓ OPTION 1: Windows Startup (RECOMMENDED - Done by installer!)
+  - Starts when Windows starts
+  - No manual action needed
+  - Already set up if you chose "Yes" during install
 
-1. Start the WebSocket bridge (if not already running)
+✓ OPTION 2: Windows Service (MOST RELIABLE)
+  - Runs as background service
+  - Restarts automatically if crashes
+  - Run: create-windows-service.bat (as Admin)
+
+✓ OPTION 3: Manual Start
+  - Double-click desktop shortcut when needed
+  - Or double-click start-bridge.bat
+
+The Windows installer already sets up Option 1 for you!
+
+QUICK START (AFTER INSTALL)
+----------------------------
+
+Windows users - if you chose auto-start during install:
+1. Just open Ableton Live! (bridge is already running)
+2. Add "Production Tracker" device to Master track
+3. Click "Connect" and enter your auth token from https://muvs.dev/dashboard
+4. Start making music!
+
+Manual start users:
+1. Start bridge (double-click desktop shortcut or start-bridge.bat)
 2. Open Ableton Live
-3. Add Production Tracker device to Master track
-4. Click "Connect" and enter your auth token
-5. Make music - tracking happens automatically!
+3. Add device to Master track
+4. Click "Connect" and enter auth token
+5. Make music!
 
 CONTROLS
 --------
@@ -92,116 +115,130 @@ STATUS INDICATORS
 ● Red    = Disconnected
 ● Gray   = Disabled
 
-AUTO-START BRIDGE (Windows)
----------------------------
-The installer can add the bridge to Windows startup automatically.
-This means it will start when you log in to Windows.
-
-Alternatively, you can manually add it:
-1. Press Win+R
-2. Type: shell:startup
-3. Create a shortcut to start-bridge.bat in that folder
-
 TROUBLESHOOTING
 ---------------
+
 Device shows "Disconnected":
-- Make sure the WebSocket bridge is running (start-bridge script)
+- Check if bridge is running:
+  • Windows: Look for node.exe in Task Manager
+  • Or double-click desktop shortcut to start it
 - Check your internet connection
 - Verify you're logged in at https://muvs.dev
-- Check that ports 7400 and 7401 are not in use
 
-Bridge won't start:
-- Install Node.js from https://nodejs.org
-- On Windows: Run as Administrator
-- Check firewall settings
+Installation failed:
+- Run INSTALL.bat as Administrator
+- Send install.log file for support
 
-Events not appearing on dashboard:
-- Check "Auto-track" is enabled (checkbox)
+Bridge won't auto-start:
+- See AUTOSTART_README.txt for options
+- Try running create-windows-service.bat as Admin
+
+Events not appearing:
+- Check "Auto-track" checkbox is enabled
 - Verify status shows green ●
-- Check Max Console for errors (Cmd+M / Ctrl+M in Max)
+- Check Max Console (Cmd+M / Ctrl+M in Max)
 
 Voice notes not working:
 - Check microphone permissions
-- macOS: System Preferences → Security & Privacy → Microphone
 - Windows: Settings → Privacy → Microphone
-
-Installation failed:
-- Windows: Run INSTALL.bat as Administrator
-- Check internet connection
-- Install Node.js manually if needed
+- macOS: System Preferences → Security → Microphone
 
 FILES INCLUDED
 --------------
-ProductionTracker.maxpat    - The M4L device
-websocket-bridge.js         - WebSocket bridge script
-package.json                - Node.js dependencies
-code/                       - JavaScript code modules
-
-WINDOWS ONLY:
-INSTALL.bat                 - One-click installer (recommended!)
+INSTALL.bat                 - ONE-CLICK INSTALLER (Windows) ⭐
 INSTALL.ps1                 - PowerShell installer
-start-bridge.bat            - Bridge startup script
-QUICK_INSTALL_WINDOWS.txt   - Quick start guide for Windows
+QUICK_INSTALL_WINDOWS.txt   - Quick start guide ⭐
+AUTOSTART_README.txt        - Auto-start options guide ⭐
+create-windows-service.bat  - Install as Windows service
+README.txt                  - This file
 
-MAC/LINUX:
-start-bridge.sh             - Bridge startup script
+ProductionTracker.maxpat    - The M4L device
+websocket-bridge.js         - WebSocket bridge
+package.json                - Node.js dependencies
+code/                       - JavaScript modules
+
+start-bridge.bat            - Manual bridge start (Windows)
+start-bridge.sh             - Manual bridge start (Mac/Linux)
+
+DETAILED LOGGING
+----------------
+
+When you run INSTALL.bat, it creates install.log with detailed information.
+
+If you have any issues, send install.log for support!
+
+The log includes:
+- Every step of installation
+- Error messages with details
+- File paths and commands
+- Success/failure codes
 
 UNINSTALLATION
 --------------
-WINDOWS (if installed with INSTALL.bat):
-1. Delete: C:\Program Files\ProductionTracker\
-2. Remove device from: %USERPROFILE%\Documents\Ableton\User Library\...
-3. Delete desktop shortcut
-4. Remove from startup: %APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\
+
+WINDOWS:
+1. Remove auto-start:
+   - Press Win+R → type: shell:startup
+   - Delete "Production Tracker Bridge" shortcut
+
+2. Remove service (if installed):
+   - Run as Admin: sc delete ProductionTrackerBridge
+
+3. Delete files:
+   - C:\Program Files\ProductionTracker\
+   - Ableton device from User Library
+   - Desktop shortcut
 
 MANUAL:
-1. Delete the extracted folder
-2. Remove .amxd from Ableton User Library
-3. Remove any shortcuts you created
+- Delete extracted folder
+- Remove .amxd from Ableton User Library
+- Remove shortcuts
 
 SUPPORT
 -------
-Documentation: https://muvs.dev
-GitHub: https://github.com/undergnarly/Stemflow
-Issues: Report on GitHub
+Website: https://muvs.dev
+Documentation: See AUTOSTART_README.txt and QUICK_INSTALL_WINDOWS.txt
+Log file: install.log (created during installation)
 
 PRIVACY
 -------
-Only metadata is tracked - never your actual audio or MIDI content.
+Only metadata is tracked - never audio or MIDI content.
 
-Data collected:
+Collected:
 - Session timing
 - Track/device names and counts
 - Tempo and time signature
-- Transport state (play/stop)
+- Transport state
 - User notes and snapshots
 
 NOT collected:
-- Audio recordings (except voice notes you manually record)
+- Audio recordings (except your voice notes)
 - MIDI note data
-- Automation values
+- Automation
 - Plugin settings
-- Keystroke or mouse data
-
-All data is encrypted in transit (HTTPS/WSS).
+- Personal data
 
 VERSION
 -------
-v1.0.0 - Initial release
+v1.0.1 - Auto-start improvements
 
 CHANGELOG
 ---------
+v1.0.1 (2025-11-16)
+- Added automatic bridge startup with Windows
+- Added detailed installation logging
+- Added Windows service option
+- Improved error handling
+- Better M4L device detection
+
 v1.0.0 (2025-11-16)
 - Initial release
-- Automatic session tracking
-- Voice notes and snapshots
-- WebSocket real-time communication
-- Auto-reconnection and offline queueing
-- Windows one-click installer
-- Auto-start option
 
 ================================
 Happy producing! 🎵
+
+After installation, just open Ableton!
+The bridge runs automatically in background.
 
 Get insights at https://muvs.dev
 ================================

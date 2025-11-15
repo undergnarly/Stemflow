@@ -49,8 +49,8 @@ export default function DashboardPage() {
   const handleDownloadDevice = () => {
     // Trigger download of Ableton device package
     const link = document.createElement('a')
-    link.href = '/downloads/ProductionTracker-v1.0.0.tar.gz'
-    link.download = 'ProductionTracker-v1.0.0.tar.gz'
+    link.href = '/downloads/ProductionTracker-v1.0.1.tar.gz'
+    link.download = 'ProductionTracker-v1.0.1.tar.gz'
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
